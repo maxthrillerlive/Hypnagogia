@@ -2,12 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Hypnagogia - Coredump</title>
   <style>
-    * { margin: 0; padding: 0; }
-    body { background: #000; overflow: hidden; }
-    canvas { display: block; width: 100vw; height: 100vh; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { background: #000; overflow: hidden; touch-action: none; -webkit-overflow-scrolling: none; position: fixed; width: 100%; height: 100%; }
+    canvas#c { display: block; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
+    canvas#credits { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5; }
     #overlay {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       display: flex; align-items: center; justify-content: center;
@@ -16,14 +17,53 @@
     #overlay span {
       color: #fff; font-family: monospace; font-size: 24px;
       animation: pulse 2s ease-in-out infinite;
+      user-select: none; -webkit-user-select: none;
+      padding: 20px;
+    }
+    @media (max-width: 600px) {
+      #overlay span { font-size: 18px; }
     }
     @keyframes pulse { 0%,100% { opacity: 0.3; } 50% { opacity: 1; } }
+    #mobile-msg {
+      display: none;
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: #000; color: #fff; font-family: monospace;
+      flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 2em; z-index: 999;
+      box-sizing: border-box;
+    }
+    #mobile-msg .icon { font-size: 48px; margin-bottom: 20px; }
+    #mobile-msg .title { font-size: 24px; margin-bottom: 12px; }
+    #mobile-msg .subtitle { font-size: 14px; color: #aaa; margin-bottom: 24px; }
+    #mobile-msg .error { font-size: 16px; color: #f44; margin-bottom: 16px; }
+    #mobile-msg .hint { font-size: 13px; color: #666; }
+    #mobile-msg .url { font-size: 11px; color: #444; margin-top: 32px; }
   </style>
+  <script>
+    // Mobile detection before any heavy JS loads
+    if (/Android|iPhone|iPad|iPod|webOS/i.test(navigator.userAgent) ||
+        (navigator.maxTouchPoints > 0 && window.innerWidth < 1024)) {
+      document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('mobile-msg').style.display = 'flex';
+        document.getElementById('overlay').style.display = 'none';
+        document.getElementById('c').style.display = 'none';
+        document.getElementById('credits').style.display = 'none';
+      });
+    }
+  </script>
 </head>
 <body>
+  <div id="mobile-msg">
+    <div class="icon">💀</div>
+    <div class="title">HYPNAGOGIA</div>
+    <div class="subtitle">a demo by COREDUMP</div>
+    <div class="error">This demo requires a desktop browser with WebGL2.</div>
+    <div class="hint">Please visit on a laptop or desktop for the full experience.</div>
+    <div class="url">hypnagogia.maxthriller.win</div>
+  </div>
   <canvas id="c"></canvas>
-  <canvas id="credits" style="position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:5;"></canvas>
+  <canvas id="credits"></canvas>
   <div id="overlay"><span>▶ CLICK TO START</span></div>
-  <script type="module" src="demo.js"></script>
+  <script type="module" src="demo.js?v=2"></script>
 </body>
 </html>

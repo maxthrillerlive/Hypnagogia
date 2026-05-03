@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Hypnagogia - Coredump</title>
+  <style>
+    * { margin: 0; padding: 0; }
+    html, body { background: #000; overflow: hidden; touch-action: none; -webkit-overflow-scrolling: none; position: fixed; width: 100%; height: 100%; }
+    canvas#c { display: block; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
+    canvas#credits { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5; }
+    #overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      z-index: 10; cursor: pointer; background: #000;
+    }
+    #overlay span {
+      color: #fff; font-family: monospace; font-size: 24px;
+      animation: pulse 2s ease-in-out infinite;
+      user-select: none; -webkit-user-select: none;
+      padding: 20px;
+    }
+    @media (max-width: 600px) {
+      #overlay span { font-size: 18px; }
+    }
+    @keyframes pulse { 0%,100% { opacity: 0.3; } 50% { opacity: 1; } }
+  </style>
+</head>
+<body>
+  <canvas id="c"></canvas>
+  <canvas id="credits"></canvas>
+  <div id="overlay"><span>▶ TAP TO START</span></div>
+  <script type="module" src="demo.js"></script>
+</body>
+</html>
